@@ -19,7 +19,7 @@ const BalanceCard: React.FC = () => {
       "balance-card",
       state.balance >= 0 ? "bg-turquoise text-white" : "bg-coral text-white"
     )}>
-      <div className="space-y-4">
+      <div className="space-y-4 p-5">
         <div className="text-sm opacity-90">Saldo em Caixa</div>
         <div className="text-3xl font-bold">{formatCurrency(state.balance)}</div>
       </div>

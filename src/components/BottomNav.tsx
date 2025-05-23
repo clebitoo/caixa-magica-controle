@@ -8,12 +8,12 @@ const BottomNav: React.FC = () => {
   const location = useLocation();
   
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border">
+    <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border shadow-lg">
       <div className="flex justify-around">
         <Link 
           to="/"
           className={cn(
-            "flex flex-col items-center py-2 px-5 flex-1",
+            "flex flex-col items-center py-3 px-5 flex-1",
             location.pathname === "/" && "text-turquoise"
           )}
         >
@@ -23,7 +23,7 @@ const BottomNav: React.FC = () => {
         <Link 
           to="/adicionar-entrada"
           className={cn(
-            "flex flex-col items-center py-2 px-5 flex-1",
+            "flex flex-col items-center py-3 px-5 flex-1",
             location.pathname === "/adicionar-entrada" && "text-turquoise"
           )}
         >
@@ -33,7 +33,7 @@ const BottomNav: React.FC = () => {
         <Link 
           to="/adicionar-saida"
           className={cn(
-            "flex flex-col items-center py-2 px-5 flex-1",
+            "flex flex-col items-center py-3 px-5 flex-1",
             location.pathname === "/adicionar-saida" && "text-turquoise"
           )}
         >

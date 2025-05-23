@@ -11,7 +11,7 @@ const Header: React.FC = () => {
   return (
     <header className="sticky top-0 z-10 bg-background/80 backdrop-blur-md border-b border-border p-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold text-foreground">Caixa Mágica</h1>
+        <h1 className="text-xl font-semibold text-foreground">Caixa Capture Alchymist</h1>
         <div className="flex gap-2">
           {location.pathname === '/' && (
             <>
