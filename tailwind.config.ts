@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,16 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				turquoise: {
+					DEFAULT: '#2A9D8F',
+					light: '#40B4A7',
+					dark: '#1F7A70'
+				},
+				coral: {
+					DEFAULT: '#E76F51',
+					light: '#F2917A',
+					dark: '#C2573C'
 				}
 			},
 			borderRadius: {
@@ -84,11 +95,19 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'fade-in': {
+					from: { opacity: '0' },
+					to: { opacity: '1' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'fade-in': 'fade-in 0.3s ease-out'
+			},
+			fontFamily: {
+				sans: ['Poppins', 'sans-serif']
 			}
 		}
 	},
