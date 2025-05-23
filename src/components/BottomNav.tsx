@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { Cash, ArrowDown, ArrowUp } from 'lucide-react';
+import { Wallet, ArrowDown, ArrowUp } from 'lucide-react';
 
 const BottomNav: React.FC = () => {
   const location = useLocation();
@@ -17,7 +17,7 @@ const BottomNav: React.FC = () => {
             location.pathname === "/" && "text-turquoise"
           )}
         >
-          <Cash size={20} />
+          <Wallet size={20} />
           <span className="text-xs mt-1">Resumo</span>
         </Link>
         <Link 
