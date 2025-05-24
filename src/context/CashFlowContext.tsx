@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 
 export type Store = 'Lagoa Encantada' | 'Prehistoric Park';
@@ -10,6 +9,7 @@ export interface Transaction {
   store: Store;
   description: string;
   type: 'income' | 'expense';
+  receipt?: string;
 }
 
 interface CashFlowState {

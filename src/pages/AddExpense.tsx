@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useCashFlow } from '@/context/CashFlowContext';
 import { toast } from '@/components/ui/sonner';
+import { Camera, X } from 'lucide-react';
 
 const AddExpense: React.FC = () => {
   const navigate = useNavigate();
@@ -19,6 +20,31 @@ const AddExpense: React.FC = () => {
   const [date, setDate] = useState(format(new Date(), 'yyyy-MM-dd'));
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
+  const [receipt, setReceipt] = useState<string | null>(null);
+  const [receiptFile, setReceiptFile] = useState<File | null>(null);
+  
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.type.startsWith('image/')) {
+        setReceiptFile(file);
+        
+        // Create preview URL
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          setReceipt(event.target?.result as string);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        toast.error('Por favor, selecione apenas arquivos de imagem');
+      }
+    }
+  };
+  
+  const removeReceipt = () => {
+    setReceipt(null);
+    setReceiptFile(null);
+  };
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,9 +62,10 @@ const AddExpense: React.FC = () => {
     addTransaction({
       date,
       amount: parseFloat(amount),
-      store: 'Lagoa Encantada', // Poderia ser de qualquer loja para saídas
+      store: 'Lagoa Encantada',
       description,
-      type: 'expense'
+      type: 'expense',
+      receipt: receipt || undefined
     });
     
     toast.success('Saída adicionada com sucesso');
@@ -86,6 +113,43 @@ const AddExpense: React.FC = () => {
                 onChange={(e) => setDescription(e.target.value)}
                 required
               />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="receipt">Comprovante (Opcional)</Label>
+              {!receipt ? (
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                  <Camera className="mx-auto h-8 w-8 text-gray-400 mb-2" />
+                  <Label htmlFor="receipt-input" className="cursor-pointer">
+                    <span className="text-sm text-gray-600">Toque para adicionar foto do comprovante</span>
+                    <Input
+                      id="receipt-input"
+                      type="file"
+                      accept="image/*"
+                      capture="environment"
+                      onChange={handleFileChange}
+                      className="hidden"
+                    />
+                  </Label>
+                </div>
+              ) : (
+                <div className="relative">
+                  <img
+                    src={receipt}
+                    alt="Comprovante"
+                    className="w-full h-48 object-cover rounded-lg border"
+                  />
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    size="icon"
+                    className="absolute top-2 right-2"
+                    onClick={removeReceipt}
+                  >
+                    <X size={16} />
+                  </Button>
+                </div>
+              )}
             </div>
             
             <div className="pt-2">

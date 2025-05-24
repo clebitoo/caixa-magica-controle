@@ -4,7 +4,7 @@ import { useCashFlow, Transaction } from '@/context/CashFlowContext';
 import { Card } from '@/components/ui/card';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { ArrowDown, ArrowUp } from 'lucide-react';
+import { ArrowDown, ArrowUp, FileImage } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const TransactionItem: React.FC<{ transaction: Transaction }> = ({ transaction }) => {
@@ -27,8 +27,13 @@ const TransactionItem: React.FC<{ transaction: Transaction }> = ({ transaction }
           )}>
             {transaction.type === 'income' ? <ArrowDown size={14} /> : <ArrowUp size={14} />}
           </div>
-          <div>
-            <h4 className="text-sm font-medium">{transaction.description || transaction.store}</h4>
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <h4 className="text-sm font-medium">{transaction.description || transaction.store}</h4>
+              {transaction.receipt && (
+                <FileImage size={12} className="text-gray-500" />
+              )}
+            </div>
             <div className="flex items-center gap-1">
               <p className="text-xs text-muted-foreground">{formattedDate}</p>
               {transaction.description && (
