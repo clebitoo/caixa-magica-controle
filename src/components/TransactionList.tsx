@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { useCashFlow, Transaction } from '@/context/CashFlowContext';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,6 +8,7 @@ import { ptBR } from 'date-fns/locale';
 import { ArrowDown, ArrowUp, FileImage, Trash } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from '@/components/ui/sonner';
+import TransactionFilters, { FilterOptions } from './TransactionFilters';
 
 const TransactionItem: React.FC<{ transaction: Transaction }> = ({ transaction }) => {
   const { deleteTransaction } = useCashFlow();
@@ -74,12 +75,41 @@ const TransactionItem: React.FC<{ transaction: Transaction }> = ({ transaction }
 
 const TransactionList: React.FC = () => {
   const { state } = useCashFlow();
-  
-  const sortedTransactions = [...state.transactions].sort((a, b) => {
-    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  const [filters, setFilters] = useState<FilterOptions>({
+    type: 'all',
+    dateRange: {}
   });
+
+  const filteredTransactions = useMemo(() => {
+    let filtered = [...state.transactions];
+
+    // Filter by type
+    if (filters.type !== 'all') {
+      filtered = filtered.filter(transaction => transaction.type === filters.type);
+    }
+
+    // Filter by date range
+    if (filters.dateRange.from) {
+      filtered = filtered.filter(transaction => {
+        const transactionDate = new Date(transaction.date);
+        return transactionDate >= filters.dateRange.from!;
+      });
+    }
+
+    if (filters.dateRange.to) {
+      filtered = filtered.filter(transaction => {
+        const transactionDate = new Date(transaction.date);
+        return transactionDate <= filters.dateRange.to!;
+      });
+    }
+
+    // Sort by date (most recent first)
+    return filtered.sort((a, b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
+  }, [state.transactions, filters]);
   
-  if (sortedTransactions.length === 0) {
+  if (state.transactions.length === 0) {
     return (
       <div className="text-center py-8 text-muted-foreground">
         <p>Nenhuma transação registrada</p>
@@ -89,9 +119,20 @@ const TransactionList: React.FC = () => {
   
   return (
     <div className="space-y-2">
-      {sortedTransactions.map(transaction => (
-        <TransactionItem key={transaction.id} transaction={transaction} />
-      ))}
+      <TransactionFilters 
+        filters={filters} 
+        onFiltersChange={setFilters} 
+      />
+      
+      {filteredTransactions.length === 0 ? (
+        <div className="text-center py-8 text-muted-foreground">
+          <p>Nenhuma transação encontrada com os filtros aplicados</p>
+        </div>
+      ) : (
+        filteredTransactions.map(transaction => (
+          <TransactionItem key={transaction.id} transaction={transaction} />
+        ))
+      )}
     </div>
   );
 };
