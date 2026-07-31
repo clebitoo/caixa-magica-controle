@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CashFlowProvider } from "@/context/CashFlowContext";
+import { ThemeProvider } from "@/context/ThemeProvider";
 import Dashboard from "./pages/Dashboard";
 import AddIncome from "./pages/AddIncome";
 import AddExpense from "./pages/AddExpense";
@@ -15,18 +16,20 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <CashFlowProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/adicionar-entrada" element={<AddIncome />} />
-            <Route path="/adicionar-saida" element={<AddExpense />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </CashFlowProvider>
+      <ThemeProvider>
+        <CashFlowProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/adicionar-entrada" element={<AddIncome />} />
+              <Route path="/adicionar-saida" element={<AddExpense />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </CashFlowProvider>
+      </ThemeProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
