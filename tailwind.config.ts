@@ -107,7 +107,14 @@ export default {
 				'fade-in': 'fade-in 0.3s ease-out'
 			},
 			fontFamily: {
-				sans: ['Poppins', 'sans-serif']
+				sans: ['Inter', 'system-ui', 'sans-serif'],
+				display: ['Oswald', 'system-ui', 'sans-serif']
+			},
+			backgroundImage: {
+				'gradient-glow': 'radial-gradient(ellipse at top, hsl(42 82% 58% / 0.18), transparent 70%)'
+			},
+			boxShadow: {
+				elevated: '0 24px 60px -30px hsl(42 82% 58% / 0.45)'
 			}
 		}
 	},
